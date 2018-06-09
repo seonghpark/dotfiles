@@ -36,6 +36,8 @@
   :config
   (ivy-mode t))
 
+(use-package flycheck)
+
 (use-package company
   :defer 10
   :diminish company-mode
@@ -103,5 +105,46 @@
   :after treemacs projectile
   :ensure t)
 
-(use-package zenburn-theme
-  :ensure t)
+(use-package ensime
+  :ensure t
+  :pin melpa)
+
+(use-package company-tern
+  :config
+  (define-key tern-mode-keymap (kbd "M-.") nil)
+  (define-key tern-mode-keymap (kbd "M-,") nil))
+(use-package js2-mode
+  :init
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+  (setq js-indent-level 2)
+  :config
+  (add-hook 'js2-mode-hook
+            (lambda ()
+              (add-to-list 'company-backends 'company-tern)
+              (set 'js2-strict-missing-semi-warning nil)
+              (tern-mode)
+              (company-mode))))
+(use-package xref-js2
+  :init
+  (define-key js-mode-map (kbd "M-.") nil)
+  (add-hook 'js2-mode-hook (lambda ()
+                             (add-hook 'xref-backend-functions
+                                       #'xref-js2-xref-backend nil t))))
+
+(use-package elpy
+  :init
+  (elpy-enable)
+  (setq elpy-rpc-backend "jedi"))
+
+(use-package meghanada
+  :config
+  (add-hook 'java-mode-hook
+            (lambda ()
+              (meghanada-mode t)
+              (flycheck-mode +1)
+              (setq c-basic-offset 2)
+              (setq indent-tabs-mode nil)))
+  (setq meghanada-java-path "java")
+  (setq meghanada-maven-path "mvn"))
+
+(use-package zenburn-theme)

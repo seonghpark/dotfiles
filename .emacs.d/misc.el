@@ -11,3 +11,7 @@
   indent-tabs-mode nil
   tab-width 4
   c-basic-offset 4)
+
+;; open shell from current buffer
+(add-to-list 'display-buffer-alist
+             `(,(regexp-quote "*shell*") display-buffer-same-window))
