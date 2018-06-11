@@ -22,7 +22,10 @@
   :init (evil-mode)
   :config
   (define-key evil-normal-state-map (kbd "M-.") nil)
-  (define-key evil-normal-state-map (kbd "M-,") nil))
+  (define-key evil-normal-state-map (kbd "M-,") nil)
+  (setq evil-want-C-u-scroll t)
+  (setq evil-want-C-u-scroll t))
+
 
 (use-package markdown-mode)
 
@@ -146,5 +149,30 @@
               (setq indent-tabs-mode nil)))
   (setq meghanada-java-path "java")
   (setq meghanada-maven-path "mvn"))
+
+(use-package groovy-mode)
+
+(use-package rtags
+  :ensure t
+  :config
+  (use-package flycheck-rtags))
+
+(use-package irony
+  :ensure t
+  :init
+  (add-hook 'c++-mode-hook 'irony-mode)
+  (add-hook 'c-mode-hook 'irony-mode)
+  (setq company-clang-executable "/usr/bin/clang")
+  (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+  :config
+  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+  (use-package company-irony
+    :ensure t
+    :config
+    (add-to-list 'company-backends 'company-irony))
+  (use-package company-irony-c-headers
+    :ensure t
+    :config
+    (add-to-list 'company-backends 'company-irony-c-headers)))
 
 (use-package zenburn-theme)
