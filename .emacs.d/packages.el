@@ -23,9 +23,7 @@
   :config
   (define-key evil-normal-state-map (kbd "M-.") nil)
   (define-key evil-normal-state-map (kbd "M-,") nil)
-  (setq evil-want-C-u-scroll t)
   (setq evil-want-C-u-scroll t))
-
 
 (use-package markdown-mode)
 
@@ -151,6 +149,11 @@
   (setq meghanada-maven-path "mvn"))
 
 (use-package groovy-mode)
+(use-package yaml-mode)
+(use-package dockerfile-mode)
+
+(use-package auctex
+  :hook Tex-mode)
 
 (use-package rtags
   :ensure t
@@ -174,5 +177,14 @@
     :ensure t
     :config
     (add-to-list 'company-backends 'company-irony-c-headers)))
+
+(use-package web-mode
+  :init
+  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  :config
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2)
+  (setq web-mode-enable-css-colorization t))
 
 (use-package zenburn-theme)
